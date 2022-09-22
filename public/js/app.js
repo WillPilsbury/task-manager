@@ -6,7 +6,8 @@ fetch(url).then((response) => {
         
         var tasksBody = '';
         for (i = 0; i < data.length; i++) {
-            tasksBody += '<div> ' + data[i].description + ' </div>'
+            tasksBody += '<tr> <td id="' + data[i]._id + '" onclick="deleteTask(' + "'" + data[i]._id + "'" + ')" class="delete">' + 
+                        '<img src="/img/close.png" width="10" height="10"></td> <td> ' + data[i].description + ' </td> </tr>'
         }
 
         messageOne.innerHTML = tasksBody
@@ -26,7 +27,7 @@ document.querySelector('#addTaskForm').addEventListener('submit', (e) => {
     e.preventDefault()
 
     const taskText = document.querySelector('#taskDescription').value
-    console.log(taskText)
+    
     fetch(url, {
         method: 'POST',
         headers: {
@@ -37,7 +38,25 @@ document.querySelector('#addTaskForm').addEventListener('submit', (e) => {
         })
     }).then((result) => {
         return result.json()
-    }).then((data) => console.log(data))
-
-    
+    }).then((data) => {
+        console.log(data)
+        window.location.href = ""
+    })
 })
+
+const deleteTask = (id) => {
+    fetch('/deleteTask', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            '_id': id
+        })
+    }).then((result) => {
+        return result.json()
+    }).then((data) => {
+        console.log(data)
+        window.location.href = ""
+    })
+}

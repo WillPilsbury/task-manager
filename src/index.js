@@ -94,6 +94,16 @@ app.get('/tasks/:id', (req, res) => {
     })
 })
 
+app.post('/deleteTask', (req, res) => {
+    const _id = req.body
+    
+    Task.deleteOne({_id}).then((task) => {
+        res.send(task)
+    }).catch((e) => {
+        res.status(500).send()
+    })
+})
+
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
 })
